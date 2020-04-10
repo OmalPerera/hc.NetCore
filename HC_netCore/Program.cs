@@ -13,7 +13,7 @@ namespace HC_netCore
     {
         public static void Main(string[] args)
         {
-            //test commit
+            //test commit 2
             CreateHostBuilder(args).Build().Run();
         }
 
