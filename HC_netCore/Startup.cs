@@ -11,6 +11,9 @@ namespace HC_netCore
 {
     public class Startup
     {
+
+        readonly string AllowedOrigins = "_allowedOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,6 +31,20 @@ namespace HC_netCore
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HC API", Version = "v1" });
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: AllowedOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins(
+                                          "http://localhost:3000",
+                                          "https://localhost:3000"
+                                          )
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod();
+                                  });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +61,8 @@ namespace HC_netCore
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             });
+
+            app.UseCors(AllowedOrigins);
 
             app.UseHttpsRedirection();
 
