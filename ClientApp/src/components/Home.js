@@ -49,21 +49,29 @@ export class Home extends Component {
       <div>
         <form onSubmit={(event) => this.mySubmitHandler(event)}>
           <h1>HarvestCraft Payments</h1>
-          <p>Name</p>
-          <input
-            type='text'
-            onChange={this.myChangeHandler}
-          />
+          <div className="form-group">
+            <p>Name</p>
+            <input
+              className="form-control"
+              type='text'
+              onChange={this.myChangeHandler}
+            />
+          </div>
 
-          <p>isCompleted</p>
-          <input
-            type='text'
-            onChange={this.isCompleteHandler}
-          />
+          <div className="form-group">
+            <p>isCompleted</p>
+            <input
+              className="form-control"
+              type='text'
+              onChange={this.isCompleteHandler}
+            />
+          </div>
 
           <input
+            className="form-control btn-primary"
             type='submit'
           />
+
         </form>
 
       </div>
