@@ -39,9 +39,6 @@ namespace HC_netCore
             */
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterDatabase")));
 
-            // Automatically perform database migration
-            services.BuildServiceProvider().GetService<AppDbContext>().Database.Migrate();
-
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
@@ -65,7 +62,7 @@ namespace HC_netCore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -91,6 +88,11 @@ namespace HC_netCore
             {
                 endpoints.MapControllers();
             });
+
+            // Automatically perform database migration
+            dbContext.Database.Migrate();
+
+
         }
     }
 }
