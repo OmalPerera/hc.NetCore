@@ -1,3 +1,4 @@
+using System;
 using HC_netCore.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,7 +25,23 @@ namespace HC_netCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+            /*
+            //services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+
+            // Use SQL Database if in Azure, otherwise, use SQLite
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+                services.AddDbContext<TodoContext>(options =>
+                        options.UseSqlServer(Configuration.GetConnectionString("MasterDatabase")));
+            else
+                services.AddDbContext<TodoContext>(options =>
+                        options.UseSqlite("Data Source=localdatabase.db"));
+
+            */
+            services.AddDbContext<TodoContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterDatabase")));
+
+            // Automatically perform database migration
+            services.BuildServiceProvider().GetService<TodoContext>().Database.Migrate();
+
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
