@@ -26,21 +26,21 @@ namespace HC_netCore
         public void ConfigureServices(IServiceCollection services)
         {
             /*
-            //services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+            //services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("TodoList"));
 
             // Use SQL Database if in Azure, otherwise, use SQLite
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-                services.AddDbContext<TodoContext>(options =>
+                services.AddDbContext<AppDbContext>(options =>
                         options.UseSqlServer(Configuration.GetConnectionString("MasterDatabase")));
             else
-                services.AddDbContext<TodoContext>(options =>
+                services.AddDbContext<AppDbContext>(options =>
                         options.UseSqlite("Data Source=localdatabase.db"));
 
             */
-            services.AddDbContext<TodoContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterDatabase")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterDatabase")));
 
             // Automatically perform database migration
-            services.BuildServiceProvider().GetService<TodoContext>().Database.Migrate();
+            services.BuildServiceProvider().GetService<AppDbContext>().Database.Migrate();
 
             services.AddControllers();
 
