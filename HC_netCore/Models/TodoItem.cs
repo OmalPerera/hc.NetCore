@@ -12,6 +12,7 @@ namespace HC_netCore
 
         [Required, MaxLength(100)]
         public string Name { get; set; }
+        public string Notes { get; set; }
         public bool IsComplete { get; set; }
     }
 }

@@ -26,21 +26,18 @@ namespace HC_netCore
         public void ConfigureServices(IServiceCollection services)
         {
             /*
-            //services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+            //services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("TodoList"));
 
             // Use SQL Database if in Azure, otherwise, use SQLite
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-                services.AddDbContext<TodoContext>(options =>
+                services.AddDbContext<AppDbContext>(options =>
                         options.UseSqlServer(Configuration.GetConnectionString("MasterDatabase")));
             else
-                services.AddDbContext<TodoContext>(options =>
+                services.AddDbContext<AppDbContext>(options =>
                         options.UseSqlite("Data Source=localdatabase.db"));
 
             */
-            services.AddDbContext<TodoContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterDatabase")));
-
-            // Automatically perform database migration
-            services.BuildServiceProvider().GetService<TodoContext>().Database.Migrate();
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterDatabase")));
 
             services.AddControllers();
 
@@ -65,7 +62,7 @@ namespace HC_netCore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -91,6 +88,11 @@ namespace HC_netCore
             {
                 endpoints.MapControllers();
             });
+
+            // Automatically perform database migration
+            dbContext.Database.Migrate();
+
+
         }
     }
 }

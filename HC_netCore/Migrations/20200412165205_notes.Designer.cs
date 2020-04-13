@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HC_netCore.Migrations
 {
-    [DbContext(typeof(TodoContext))]
-    [Migration("20200412152029_Initial")]
-    partial class Initial
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20200412165205_notes")]
+    partial class notes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,9 @@ namespace HC_netCore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
